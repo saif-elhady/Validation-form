@@ -1,5 +1,5 @@
 import { Request, Response } from "express"; 
-import { check, validationResult } from "express-validator";
+import { check, validationResult} from "express-validator";
 
 
 //GET HOMEPAGE
@@ -18,16 +18,19 @@ check('password', 'password must be at least 5 characters long')
 check('password-confirm', 'password doesn\'t match')
     .custom((value, { req }) => value === req.body.password),
 check('birthdate', 'Enter a valid birthday in MM/DD/YYYY format')
-        .isDate({ format: 'MM-DD-YYYY' }),
+        .isDate({ format: 'YYYY-MM-DD' }),
     (req: Request, res: Response) => {
     const errors = validationResult(req)
         if (!errors.isEmpty()) {
-        return res.status(422).jsonp(errors.array())
-        // // const alert = errors.array()
-        // // res.render('index', {
-        // //     alert
-        // })
-    }
+            const formattedErrors = errors.array().map(error => ({
+                message: error.msg
+            }))
+            return res.status(422).json({
+                success: false,
+                message: "Validation errors occurred",
+                errors: formattedErrors
+            });
+        }
     return;
 }];
 export default {

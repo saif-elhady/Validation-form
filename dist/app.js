@@ -12,11 +12,8 @@ app.listen(process.env.PORT_NUMBER || 5000);
 //register view engine
 app.set('view engine', 'ejs');
 //static files
-app.use(express_1.default.urlencoded({ extended: true }));
+app.use(express_1.default.urlencoded({ extended: false }));
 //public files
 app.use(express_1.default.static('public'));
 //set routes
 app.use('/', route_1.default);
-app.use((req, res) => {
-    res.status(404).render('404', { title: '404' });
-});

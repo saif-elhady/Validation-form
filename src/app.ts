@@ -10,7 +10,7 @@ app.listen(process.env.PORT_NUMBER || 5000);
 app.set('view engine', 'ejs');
 
 //static files
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 
 //public files
 app.use(express.static('public'));
@@ -18,6 +18,3 @@ app.use(express.static('public'));
 //set routes
 app.use('/', router);
 
-app.use((req, res) => {
-    res.status(404).render('404', { title: '404' });
-});
